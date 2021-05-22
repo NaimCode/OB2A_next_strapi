@@ -7,7 +7,7 @@ import MiniCardProduct from "../components/MiniCardProduct";
 import { useState, useEffect } from "react";
 
 export default function Home(props) {
-  console.log(props.collections);
+
   return (
     <div>
       <MyHead />

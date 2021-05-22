@@ -6,23 +6,25 @@ import BagIcon from "@heroicons/react/outline/ShoppingBagIcon";
 import SettingIcon from "@heroicons/react/outline/CogIcon";
 import UserIcon from "@heroicons/react/outline/UserIcon";
 import MenuIcon from "@heroicons/react/outline/MenuAlt2Icon";
+import Router from "next/router";
+
 import "bulma/css/bulma.css";
 
 import { useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { magic } from "../lib/magic";
 const NavBar = () => {
   const [isScrollingNav, setIsScrollingNav] = useState({
     shadow: "shadow-none",
     color: "bg-secondary",
   });
   const [isOpenMenu, setisOpenMenu] = useState(false);
+  const [search, setsearch] = useState("")
 
   useEffect(() => {
     window.addEventListener("scroll", scrollingNav);
   }, []);
   function scrollingNav() {
-    console.log("en marche");
-    console.log(window.scrollY);
     if (window.scrollY > 1) {
       setIsScrollingNav({ shadow: "shadow-md", color: "bg-white" });
     } else {
@@ -30,6 +32,12 @@ const NavBar = () => {
     }
   }
   const { user } = useContext(AuthContext);
+  const Search=(event)=>{
+    event.preventDefault();
+    Router.push(`/produits/recherche?slug=${search}`)
+   
+
+  }
   return (
     <div
       className={`fixed z-50 w-screen ${isScrollingNav.shadow} ${isScrollingNav.color}`}
@@ -44,13 +52,7 @@ const NavBar = () => {
         </button>
 
         <Logo />
-        {user !== null ? (
-          <Link href="/compte">
-            <a>{user}</a>
-          </Link>
-        ) : (
-          "Not Connect"
-        )}
+
         <div className="hidden md:inline-flex space-x-6 ">
           <Link href="/">
             <a
@@ -72,13 +74,32 @@ const NavBar = () => {
             </div>
             <div className="dropdown-menu" id="dropdown-menu3" role="menu">
               <div className="dropdown-content">
-                <a href="#" className="dropdown-item">
-                  Overview
-                </a>
+                <Link href="/categories/accessoire">
+                  <a className="dropdown-item">Accessoires</a>
+                </Link>
+                <Link href="/categories/enfant">
+                  <a className="dropdown-item">Enfant</a>
+                </Link>
+                <Link href="/categories/homme">
+                  <a className="dropdown-item">Homme</a>
+                </Link>
+                <Link href="/categories/femme">
+                  <a className="dropdown-item">Femme</a>
+                </Link>
+
+                <Link href="/categories/electromenagers">
+                  <a className="dropdown-item">Électroménager</a>
+                </Link>
+                <Link href="/categories/maison">
+                  <a className="dropdown-item">Maison</a>
+                </Link>
+                <Link href="/categories/sante">
+                  <a className="dropdown-item">Santé</a>
+                </Link>
                 <hr className="dropdown-divider" />
-                <a href="#" className="dropdown-item">
-                  More
-                </a>
+                <Link href="/categories/autre">
+                  <a className="dropdown-item">Autre</a>
+                </Link>
               </div>
             </div>
           </div>
@@ -93,31 +114,43 @@ const NavBar = () => {
             </div>
             <div className="dropdown-menu" id="dropdown-menu3" role="menu">
               <div className="dropdown-content">
-                <a href="#" className="dropdown-item">
-                  Overview
-                </a>
+              <Link href="/">
+                  <a className="dropdown-item">Contactez-Nous</a>
+                </Link>
+                <Link href="/">
+                  <a className="dropdown-item">Apropos de Nous </a>
+                </Link>
+                <Link href="/">
+                  <a className="dropdown-item">{`Q&A`} </a>
+                </Link>
                 <hr className="dropdown-divider" />
-                <a href="#" className="dropdown-item">
-                  More
-                </a>
+                <Link href="/categories/autre">
+                  <a className="dropdown-item">O'B2A pro</a>
+                </Link>
               </div>
             </div>
           </div>
         </div>
         <div className="flex flex-row w-min">
+        <form onSubmit={Search}>
           <div
             className="hidden md:relative text-gray-600  bg-transparent md:flex 
           flex-row rounded-md px-1 border-green-300 border-solid border-2"
           >
+           
             <input
               className="outline-none p-2 bg-transparent"
               placeholder="Recherche"
+              value={search}
+              onChange={(event)=>setsearch(event.target.value)}
               type="search"
             ></input>
             <button type="submit" className="focus:outline-none mx-3">
               <SearchIcon className="h-6 text-primary-100" />
             </button>
+         
           </div>
+          </form>
 
           <div className="dropdown is-hoverable">
             <div className="dropdown-trigger">
@@ -125,20 +158,12 @@ const NavBar = () => {
                 className="hidden md:inline-block text-primary-100 pt-2 pr-3
                rounded  overflow-visible ml-5 focus:outline-none  hover:text-blue-500
                 hover:scale-110 transition duration-100 transform"
+                onClick={() => {
+                  user === null ? Router.push("/auth") : Router.push("/compte");
+                }}
               >
                 <UserIcon className="h-6" />
               </button>
-            </div>
-            <div className="dropdown-menu" id="dropdown-menu3" role="menu">
-              <div className="dropdown-content">
-                <a href="#" className="dropdown-item">
-                  Overview
-                </a>
-                <hr className="dropdown-divider" />
-                <a href="#" className="dropdown-item">
-                  More
-                </a>
-              </div>
             </div>
           </div>
 
@@ -153,7 +178,7 @@ const NavBar = () => {
              justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 
              transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
             >
-              0
+              {user?.favoris?.length ?? 0}
             </span>
           </button>
           <button
@@ -167,7 +192,7 @@ const NavBar = () => {
             justify-center px-2 py-1 text-xs font-bold leading-none text-red-100
             transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
             >
-              4
+              {user?.panier?.length ?? 0}
             </span>
           </button>
 

@@ -1,4 +1,5 @@
 import { getImageUrlSmall, API_URL } from "../utils/GetImageUrl";
+import Link from 'next/link'
 const MiniCardProduct = ({ produit, keyP }) => {
   return (
     <div
@@ -6,6 +7,7 @@ const MiniCardProduct = ({ produit, keyP }) => {
       className="inline-block w-1/2 lg:w-1/4 md:w-1/2 p-4 group
      hover:border-secondary hover:border-solid hover:scale-105 transition duration-300 transform overflow-hidden"
     >
+      <Link href={`/produits/${produit.slug}`}>
       <a className="block relative h-56 rounded overflow-hidden md:h-80">
         <img
           alt={produit.titre}
@@ -14,6 +16,7 @@ const MiniCardProduct = ({ produit, keyP }) => {
           src={getImageUrlSmall(produit.image)}
         />
       </a>
+      </Link>
       <div className="mt-4">
         <div className="inline-flex space-x-4">
           {produit.categories.map((categorie) => (
