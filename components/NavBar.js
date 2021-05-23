@@ -74,30 +74,32 @@ const NavBar = () => {
             </div>
             <div className="dropdown-menu" id="dropdown-menu3" role="menu">
               <div className="dropdown-content">
-                <Link href="/categories/accessoire">
+                <Link href="/categorie/accessoire">
                   <a className="dropdown-item">Accessoires</a>
                 </Link>
-                <Link href="/categories/enfant">
+                <Link href="/categorie/enfant">
                   <a className="dropdown-item">Enfant</a>
                 </Link>
-                <Link href="/categories/homme">
+                <Link href="/categorie/homme">
                   <a className="dropdown-item">Homme</a>
                 </Link>
-                <Link href="/categories/femme">
+                <Link href="/categorie/femme">
                   <a className="dropdown-item">Femme</a>
                 </Link>
-
-                <Link href="/categories/electromenagers">
-                  <a className="dropdown-item">Électroménager</a>
+                <Link href="/categorie/epicerie">
+                  <a className="dropdown-item">Épicerie</a>
                 </Link>
-                <Link href="/categories/maison">
+                <Link href="/categorie/electromenager">
+                  <a className="dropdown-item">Électroménagers</a>
+                </Link>
+                <Link href="/categorie/maison">
                   <a className="dropdown-item">Maison</a>
                 </Link>
-                <Link href="/categories/sante">
+                <Link href="/categorie/sante">
                   <a className="dropdown-item">Santé</a>
                 </Link>
                 <hr className="dropdown-divider" />
-                <Link href="/categories/autre">
+                <Link href="/categorie/autre">
                   <a className="dropdown-item">Autre</a>
                 </Link>
               </div>

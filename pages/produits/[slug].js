@@ -5,7 +5,7 @@ import Head from 'next/head';
 import AuthContext from "../../context/AuthContext";
 const slug = ({produit}) => {
 const {user} = useContext(AuthContext);
-console.log(user);
+
    const [imagePrincipal, setimagePrincipal] = useState(produit.image[0])
     return (
         <div className="py-24 px-2">
@@ -35,12 +35,7 @@ console.log(user);
     }
     </div>
       <div class="lg:w-1/2 w-full">
-        {/* <h2 class="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2> */}
-        <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{produit.titre}</h1>
-        <div class="flex mb-4">
-          <spna class="foc flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Description</spna>
-      
-        </div>
+        <h1 class="text-primary-700 text-3xl lg:text-4xl title-font font-logo font-medium mb-4">{produit.titre}</h1>
         <p class="leading-relaxed mb-4">{produit.description}</p>
         {produit.couleur!==null&& (<div class="flex border-t border-gray-200 py-2">
           <span class="text-gray-500">Couleur</span>
@@ -50,6 +45,10 @@ console.log(user);
           <span class="text-gray-500">Taille</span>
           <span class="ml-auto text-gray-900">{produit.taille}</span>
         </div>)}
+      <div class="flex border-t border-gray-200 py-2">
+          <span class="text-gray-500">Expédition</span>
+          <span class="ml-auto text-gray-900">{produit.prixLivraison===null||produit.prixLivraison==0?"gratuite":"$"+ produit.prixLivraison}</span>
+        </div>
        <div class="flex border-t border-gray-200 py-2">
           <span class="text-gray-500">Vendeur</span>
           <span class="ml-auto text-gray-900">{produit.vendeur===null?"O'B2A":produit.vendeur}</span>
