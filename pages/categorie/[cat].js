@@ -2,10 +2,10 @@ import MiniCardProduct from "../../components/MiniCardProduct";
 import { API_URL, getImageUrl, getImageUrlSmall } from "../../utils/GetImageUrl";
 import Head from 'next/head'
 import Link from 'next/link'
-const Cat = ({filter,cat}) => {
-    const produits=filter;
+const Cat = ({cat}) => {
+    const produits=cat.produits;
     return (
-        <div className="py-[67px]">
+        <div className="py-[60px]">
                      <Head>
         <title>{`Catégorie: ${cat.titre}`}</title>
         <meta
@@ -17,13 +17,13 @@ const Cat = ({filter,cat}) => {
             <div className="w-full h-[250px] relative group overflow-hidden ">
             
             <div className="w-full h-full bg-black bg-opacity-50 absolute top-0  flex justify-center items-center z-10">
-               <h1 className="m-auto lg:text-5xl text-2xl text-white font-logo">
+               <h1 className="m-auto text-5xl text-white font-logo">
                {cat.titre}
                </h1>
             </div>
             <img alt="ecommerce" className={`w-full h-full object-cover object-center rounded shadow-md group-hover:scale-105 duration-500 transition transform`} src={getImageUrl(cat.image)}/>
             </div>
-            <div className="container  py-16 mx-auto">
+            <div className="container  py-16 mx-auto px-5">
            {produits.length===0? <h2 className="my-16 mx-auto text-center text-gray-400">Pas de produit pour cette catégorie pour l'instant</h2>: <div className="flex flex-wrap -m-4">
            {produits.map((produit) => (
              <div
@@ -73,16 +73,16 @@ export async function getStaticPaths() {
       const cat_res=await fetch(`${API_URL}/categories?slug=${params.cat}`);
       const found=await cat_res.json();
       const cat=found[0];
-     const produits_res=await fetch(`${API_URL}/produits`);
+    //  const produits_res=await fetch(`${API_URL}/produits`);
 
-    const produits=await produits_res.json();
+    // const produits=await produits_res.json();
   
-    const filter= await produits.filter(produit=>produit.categories.includes(produit.categories.find(pr=>pr.slug===params.cat)))
+    // const filter= await produits.filter(produit=>produit.categories.includes(produit.categories.find(pr=>pr.slug===params.cat)))
 
 
       return{
           props:{
-              filter,cat
+             cat
           }
       }
   }
