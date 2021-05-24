@@ -7,7 +7,8 @@ import SettingIcon from "@heroicons/react/outline/CogIcon";
 import UserIcon from "@heroicons/react/outline/UserIcon";
 import MenuIcon from "@heroicons/react/outline/MenuAlt2Icon";
 import Router from "next/router";
-
+import Down from '@heroicons/react/outline/ChevronDownIcon'
+import Close from "@heroicons/react/outline/XIcon";
 import "bulma/css/bulma.css";
 
 import { useState, useEffect, useContext } from "react";
@@ -33,138 +34,27 @@ const NavBar = () => {
   }
   const { user } = useContext(AuthContext);
   const Search = (event) => {
+    setisOpenMenu(false);
     event.preventDefault();
     Router.push(`/produits/recherche?slug=${search}`);
   };
   return (
-    <div
-      className={`fixed z-50 w-screen ${isScrollingNav.shadow} ${isScrollingNav.color}`}
-    >
-      <div className="flex justify-between  py-3 px-5  items-center nd:px-10">
-        <div className="dropdown ">
-          <div className="dropdown-trigger">
-            <button
-              className="text-primary-100 pt-2 pr-3 rounded 
+    <div className={`fixed z-50 flex flex-col `}>
+      <div
+        className={`flex w-screen justify-between  py-3 px-5  items-center nd:px-10 ${isScrollingNav.shadow} ${isScrollingNav.color}`}
+      >
+        <button
+          onClick={() => setisOpenMenu(!isOpenMenu)}
+          className="text-primary-100 pt-2 pr-3 rounded 
          overflow-visible ml-1 focus:outline-none  hover:text-blue-500
           hover:scale-110 transition duration-100 transform nd:hidden"
-            >
-              <MenuIcon className="h-6" />
-            </button>
-          </div>
-          <div className="dropdown-menu" id="dropdown-menu3" role="menu">
-            <div className="dropdown-content w-[50vw]">
-            
-               <div className="flex flex-row justify-around ">
-               <button
-                className="inline-block text-primary-100 
-               rounded  overflow-visible ml-2 focus:outline-none  hover:text-blue-500
-                hover:scale-110 transition duration-100 transform"
-                onClick={() => {
-                  user === null ? Router.push("/auth") : Router.push("/compte");
-                }}
-              >
-                <UserIcon className="h-6" />
-              </button>
-               <button
-            className="inline-block text-primary-100 p-1 rounded
-           overflow-visible mx-1 focus:outline-none hover:text-blue-500
-            hover:scale-110 transition duration-100 transform"
-          >
-            <SettingIcon className="h-6" />
-          </button>
-               </div>
-         
-          <div className="flex flex-row justify-around border-solid border-secondary border-t-2 border-b-2 my-3 py-3">
-          <Link href="/">
-            <a
-              className=" cursor-pointer font-logo font-light
-             text-primary-700  hover:font-medium hover:text-blue-700 "
-            >
-              Accueil
-            </a>
-          </Link>
-          <Link href="/produits">
-            <a
-              className="cursor-pointer font-logo font-light
-             text-primary-700  hover:font-medium hover:text-blue-700 "
-            >
-              Explorer
-            </a>
-          </Link>
-          </div>
-          <div className="dropdown-item dropdown ">
-            <div className="dropdown-trigger">
-              <a
-                className="cursor-pointer font-logo font-light text-primary-700
-               hover:font-medium hover:text-blue-700"
-              >
-                Catégories
-              </a>
-            </div>
-            <div className="dropdown-menu" id="dropdown-menu3" role="menu">
-              <div className="dropdown-content">
-                <Link href="/categorie/accessoire">
-                  <a className="dropdown-item">Accessoires</a>
-                </Link>
-                <Link href="/categorie/enfant">
-                  <a className="dropdown-item">Enfant</a>
-                </Link>
-                <Link href="/categorie/homme">
-                  <a className="dropdown-item">Homme</a>
-                </Link>
-                <Link href="/categorie/femme">
-                  <a className="dropdown-item">Femme</a>
-                </Link>
-                <Link href="/categorie/epicerie">
-                  <a className="dropdown-item">Épicerie</a>
-                </Link>
-                <Link href="/categorie/electromenager">
-                  <a className="dropdown-item">Électroménagers</a>
-                </Link>
-                <Link href="/categorie/maison">
-                  <a className="dropdown-item">Maison</a>
-                </Link>
-                <Link href="/categorie/sante">
-                  <a className="dropdown-item">Santé</a>
-                </Link>
-                <hr className="dropdown-divider" />
-                <Link href="/categorie/autre">
-                  <a className="dropdown-item">Autre</a>
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="dropdown is-hoverable">
-            <div className="dropdown-trigger">
-              <span
-                className="cursor-pointer font-logo font-light text-primary-700
-               hover:font-medium  hover:text-blue-700"
-              >
-                Pages
-              </span>
-            </div>
-            <div className="dropdown-menu" id="dropdown-menu3" role="menu">
-              <div className="dropdown-content">
-                <Link href="/">
-                  <a className="dropdown-item">Contactez-Nous</a>
-                </Link>
-                <Link href="/">
-                  <a className="dropdown-item">Apropos de Nous </a>
-                </Link>
-                <Link href="/">
-                  <a className="dropdown-item">{`Q&A`} </a>
-                </Link>
-                <hr className="dropdown-divider" />
-                <Link href="/categories/autre">
-                  <a className="dropdown-item">O'B2A pro</a>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-            </div>
-          </div>
-  
+        >
+          {isOpenMenu ? (
+            <Close className="h-6" />
+          ) : (
+            <MenuIcon className="h-6" />
+          )}
+        </button>
 
         <Logo />
 
@@ -275,17 +165,16 @@ const NavBar = () => {
             </div>
           </form>
 
-              <button
-                className="hidden nd:inline-block text-primary-100 
+          <button
+            className="hidden nd:inline-block text-primary-100 
                rounded  overflow-visible ml-2 focus:outline-none  hover:text-blue-500
                 hover:scale-110 transition duration-100 transform"
-                onClick={() => {
-                  user === null ? Router.push("/auth") : Router.push("/compte");
-                }}
-              >
-                <UserIcon className="h-6" />
-              </button>
-          
+            onClick={() => {
+              user === null ? Router.push("/auth") : Router.push("/compte");
+            }}
+          >
+            <UserIcon className="h-6" />
+          </button>
 
           <button
             className="relative text-primary-100 p-1 rounded 
@@ -325,6 +214,230 @@ const NavBar = () => {
           </button>
         </div>
       </div>
+      <div
+        className={`w-screen flex flex-row ${
+          !isOpenMenu ? "translate-y-full" : "translate-y-0"
+        } duration-200 transition transform `}
+      >
+        <div className="w-[274px] bg-white">
+        <div className="w-full h-[90vh]  p-3 overflow-y-scroll overflow-x-hidden">
+          <div className="py-4 flex flex-row items-center justify-around">
+          <button
+            className="text-primary-100 
+               rounded  overflow-visible ml-2 focus:outline-none  hover:text-blue-500
+                hover:scale-110 transition duration-100 transform"
+            onClick={() => {
+              user === null ? Router.push("/auth") : Router.push("/compte");
+            }}
+          >
+            <UserIcon className="h-8" />
+          </button>
+          <button
+            className=" text-primary-100 p-1 rounded
+           overflow-visible mx-1 focus:outline-none hover:text-blue-500
+            hover:scale-110 transition duration-100 transform"
+          >
+            <SettingIcon className="h-8" />
+          </button>
+          </div>
+          <form onSubmit={Search}>
+            <div
+              className="relative text-gray-600  bg-transparent flex 
+          flex-row rounded-md border-green-300 border-solid border-2 justify-between"
+            >
+              <input
+                className="outline-none p-2 bg-transparent "
+                placeholder="Recherche"
+                value={search}
+                onChange={(event) => setsearch(event.target.value)}
+                type="search"
+              ></input>
+              <button type="submit" className="focus:outline-none mx-3">
+                <SearchIcon className="h-6 text-primary-100" />
+              </button>
+            </div>
+          </form>
+       
+            <div onClick={()=>{
+              setisOpenMenu(false);
+              Router.push('/')}}
+              className="hover:bg-secondary cursor-pointer w-full my-2 p-1 rounded
+             text-primary-700 text-2xl font-logo"
+            >
+              Accueil
+            </div>
+            <div onClick={()=>{
+              setisOpenMenu(false);Router.push('/produits')}}
+              className="hover:bg-secondary cursor-pointer w-full my-2 p-1 rounded
+             text-primary-700 text-2xl font-logo"
+            >
+              Explorer
+            </div>
+            <div 
+              className="  w-full mt-2 p-1 rounded
+             text-primary-700 text-2xl font-logo flex flex-row items-center justify-between" 
+            >
+             Catégories
+             <Down className="h-6 text-primary-700"/>
+            </div>
+            <div className="pl-10 pt-1 pb-3 ">
+            <div onClick={()=>
+            {
+              setisOpenMenu(false);
+            Router.push('/categorie/accessoire')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              text-gray-500 "
+            >
+            • Accessoires
+            </div>
+            <div onClick={()=>  {
+              setisOpenMenu(false);
+            Router.push('/categorie/enfant')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              text-gray-500  "
+            >
+             • Enfant
+            </div>
+            <div onClick={()=>  {
+              setisOpenMenu(false);
+            Router.push('/categorie/homme')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              text-gray-500 "
+            >
+            • Homme
+            </div>
+            <div onClick={()=>  {
+              setisOpenMenu(false);
+            Router.push('/categorie/femme')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+             text-gray-500  "
+            >
+            •  Femme
+            </div>
+            <div onClick={()=>  {
+              setisOpenMenu(false);
+            Router.push('/categorie/epicerie')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+             text-gray-500  "
+            >
+            •  Épicerie
+            </div>
+            <div onClick={()=>  {
+              setisOpenMenu(false);
+            Router.push('/categorie/electromenager')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+             text-gray-500  "
+            >
+            • Électroménagers
+            </div>
+            <div onClick={()=>  {
+              setisOpenMenu(false);
+            Router.push('/categorie/maison')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+             text-gray-500  "
+            >
+            •  Maison
+            </div>
+            <div onClick={()=>  {
+              setisOpenMenu(false);
+            Router.push('/categorie/autre')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+             text-gray-500  "
+            >
+            •  Autre
+            </div>
+            </div>
+          
+
+
+            <div 
+              className="  w-full mt-2 p-1 rounded
+             text-primary-700 text-2xl font-logo flex flex-row items-center justify-between" 
+            >
+             Pages
+             <Down className="h-6 text-primary-700"/>
+            </div>
+            <div className="pl-10 pt-1 pb-3 ">
+            <div onClick={()=>{
+              
+                setisOpenMenu(false);
+            Router.push('/pages/pro')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              text-gray-500 "
+            >
+            • O'B2A{" "}pro
+            </div>
+            <div onClick={()=>{
+              
+              setisOpenMenu(false);
+          Router.push('/pages/contact')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              text-gray-500 "
+            >
+            • Contactez Nous
+            </div>
+            <div onClick={()=>{
+              
+              setisOpenMenu(false);
+          Router.push('/pages/apropos')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              text-gray-500 "
+            >
+            • Apropos de Nous
+            </div>
+            <div onClick={()=>{
+              
+              setisOpenMenu(false);
+          Router.push('/pages/faq')}}
+              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              text-gray-500 "
+            >
+            • FAQ
+            </div>
+            </div>
+
+     
+        </div>
+        </div>
+        <div
+          onClick={() => setisOpenMenu(!isOpenMenu)}
+          className="flex-1 h-screen bg-black bg-opacity-50"
+        ></div>
+      </div>
+    </div>
+  );
+};
+
+const Menu = ({ isOpen, setIsOpen }) => {
+  return (
+    <div
+      className={`w-screen flex flex-row ${
+        !isOpen ? "translate-y-full" : "translate-y-0"
+      } duration-200 transition transform`}
+    >
+      <div className="w-1/2 h-screen bg-white p-3">
+        <form onSubmit={Search}>
+          <div
+            className="hidden nd:relative text-gray-600  bg-transparent md:flex 
+          flex-row rounded-md px-1 border-green-300 border-solid border-2"
+          >
+            <input
+              className="outline-none p-2 bg-transparent "
+              placeholder="Recherche"
+              value={search}
+              onChange={(event) => setsearch(event.target.value)}
+              type="search"
+            ></input>
+            <button type="submit" className="focus:outline-none mx-3">
+              <SearchIcon className="h-6 text-primary-100" />
+            </button>
+          </div>
+        </form>
+      </div>
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-1/2 h-screen bg-black bg-opacity-50"
+      ></div>
     </div>
   );
 };
