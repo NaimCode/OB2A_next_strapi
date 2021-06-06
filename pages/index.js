@@ -55,7 +55,7 @@ const CategorieSection = () => {
                   alt="gallery"
                   className="w-full object-cover h-full object-center block  
               inset-0 group-hover:scale-110 transition duration-300 transform"
-                  src="/images/menFashion.png"
+                  src="/images/menfashion.png"
                 />
               </div>
               <h3 className="text-xl text-primary-100 group-hover:text-primary-300 font-logo text-center md:text-3xl">
