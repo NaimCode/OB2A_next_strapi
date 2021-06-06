@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState,useContext } from "react";
 import { magic } from "../lib/magic";
 import Router from "next/router";
 import Head from "next/head";
@@ -8,13 +8,16 @@ const AuthContext = createContext();
 export const AuthProvider = (props) => {
   const [user, setUser] = useState(null);
   const [isLoading, setisLoading] = useState(true);
+   const [tokenUser, settokenUser] = useState()
 
   // If isLoggedIn is true, set the UserContext with user data
   // Otherwise, redirect to /login and set UserContext to { user: null }
   useEffect(() => {
     magic.user.isLoggedIn().then(async (isLoggedIn) => {
       if (isLoggedIn) {
+        
         const tokenId = await magic.user.getIdToken();
+      try{
         const user_res = await fetch(`${API_URL}/users/me`, {
           method: "GET",
           headers: {
@@ -23,9 +26,16 @@ export const AuthProvider = (props) => {
           },
         });
         const user_data = await user_res.json();
-
+        settokenUser(tokenId)
+      
         setUser(user_data);
         setisLoading(false);
+     
+      }catch(err){
+        setUser(null);
+        setisLoading(false);
+      }
+    
       } else {
         // Router.push('/login');
         setUser(null);
@@ -35,15 +45,18 @@ export const AuthProvider = (props) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, setisLoading }}>
+    <AuthContext.Provider value={{ user, setUser, isLoading,tokenUser}}>
       {/* {isLoading ? <Loading /> : props.children} */}
-      { props.children}
+  { props.children}
     </AuthContext.Provider>
 
   );
 };
 
 export default AuthContext;
+export function dataInternal() {
+  return useContext(AuthContext);
+}
 
 export const Loading = () => {
   return (

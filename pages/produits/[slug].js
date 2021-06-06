@@ -8,10 +8,35 @@ import Head from "next/head";
 import BagShop from "@heroicons/react/solid/ShoppingBagIcon";
 import Fav from "@heroicons/react/solid/HeartIcon";
 
-import AuthContext from "../../context/AuthContext";
+import AuthContext, { dataInternal } from "../../context/AuthContext";
+import { magic } from "../../lib/magic";
 const slug = ({ produit }) => {
-  const { user } = useContext(AuthContext);
+  const [isLoading, setisLoading] = useState(false);
+  const data = dataInternal();
+  const { user, setUser, setcount, count } = useContext(AuthContext);
 
+  const addRemoveFav = async () => {
+    setisLoading(true);
+    user.panier.push(produit);
+    const tokenId = await magic.user.getIdToken();
+    console.log(tokenId);
+    await fetch(`${API_URL}/users/${user.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + tokenId,
+      },
+      body: JSON.stringify({
+        panier: user.panier,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+
+    setisLoading(false);
+  };
   const [imagePrincipal, setimagePrincipal] = useState(produit.image[0]);
   return (
     <div className="py-24 px-2">
@@ -24,11 +49,11 @@ const slug = ({ produit }) => {
       <section class="text-gray-600 body-font overflow-hidden px-4 md:px-1 ">
         <div class="container  mx-auto">
           <div class="lg:w-11/12 mx-auto flex flex-wrap justify-center">
-            <div className="lg:w-1/2  w-full h-[500px] md:pr-8 rounded">
+            <div className="lg:w-1/2  w-full h-[300px] md:h-[500px] md:pr-8 rounded">
               <img
                 alt="ecommerce"
                 className={`w-full ${
-                  produit.image.length === 1 ? "h-full" : "h-4/5"
+                  produit.image.length === 1 ? " h-full" : "h-4/5"
                 } object-cover object-center rounded shadow-md`}
                 src={getImageUrl(imagePrincipal)}
               />
@@ -91,31 +116,28 @@ const slug = ({ produit }) => {
               </div>
               <div class="flex items-center py-3 px-2 border-secondary border-solid border-2 my-3">
                 <span class="title-font font-medium text-2xl text-gray-900">
-                  $58.00
+                  ${produit.prix}
                 </span>
-                <button class="flex ml-auto text-white bg-blue-400 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-                Acheter
-                </button>
-                <div class="h-full  py-1 flex flex-col justify-center sm:py-1">
-                  <div class="group  relative ">
-                    <button class="mx-2 group focus:outline-none hover:scale-x-110 duration-150 transition transform">
-                      <BagShop className="h-9 text-primary-100 group-hover:text-primary-300" />
-                    </button>
-                    <div class="opacity-0 w-36 bg-primary-100 text-green-200 text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-1/2 ml-14 px-3 pointer-events-none">
-                      Ajouter au Panier
-                    </div>
-                  </div>
-                </div>
-                <div class="h-full  py-1 flex flex-col justify-center sm:py-1">
-                  <div class="group  relative ">
-                <button class="group focus:outline-none hover:scale-x-110 duration-150 transition transform">
-                  <Fav className="h-9 text-red-300 group-hover:text-red-600" />
-                </button>
-                <div class="opacity-0 w-36 bg-primary-100 text-green-200 text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -right-1/2 ml-14 px-3 pointer-events-none">
-                      Ajouter aux Favoris
-                    </div>
-                  </div>
-                </div>
+            
+             <button
+                    onClick={addRemoveFav}
+                    class="  ml-auto font-logo text-black bg-secondary border-0 py-1 px-3 focus:outline-none hover:bg-primary-300 rounded"
+                  >
+                    <span>Acheter</span>
+                  </button>
+                {/* {isLoading ? (
+                  <button class="button is-loading">Loading button</button>
+                ) : ( */}
+                  <button
+                    onClick={addRemoveFav}
+                    class="  ml-auto font-logo text-white bg-primary-100 border-0 py-1 px-3 focus:outline-none hover:bg-primary-300 rounded"
+                  >
+                    <span>Ajouter au Panier</span>
+                  </button>
+                {/* )} */}
+          
+               
+                
               </div>
             </div>
             <div className="">

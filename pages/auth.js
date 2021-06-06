@@ -12,9 +12,9 @@ const SignLog = () => {
   const {user, setUser} = useContext(AuthContext);
 
   // Redirec to /profile if the user is logged in
-  useEffect(() => {
-    user?.issuer && Router.push("/compte");
-  }, [user]);
+  // useEffect(() => {
+  //   user?.issuer && Router.push("/compte");
+  // }, [user]);
 
   async function handleLoginWithEmail(email) {
     try {
@@ -24,7 +24,7 @@ const SignLog = () => {
       let didToken = await magic.auth.loginWithMagicLink(
         {email }// optional redirect back to your app after magic link is clicked
       );
-console.log(didToken);
+    console.log(didToken);
       // Validate didToken with server
       const res = await fetch(`${API_URL}/users/me`, {
         method: "GET",
@@ -37,8 +37,8 @@ console.log(didToken);
      console.log(user);
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
-        let userMetadata = await magic.user.getMetadata();
-        await setUser(userMetadata);
+      
+        await setUser(user);
         Router.push("/");
         setDisabled(false);
 
@@ -105,13 +105,20 @@ console.log(didToken);
                     />
                   </div>
 
-                  <button
+                 {disabled? <button
                     type="submit"
-                    className=" w-full block bg-primary-500 hover:bg-primary-100 focus:bg-primary-100 text-white font-semibold rounded-lg
-            px-4 py-3 mt-6"
+                    disabled={true}
+                    className={` w-full block bg-primary-500 hover:bg-primary-100 focus:bg-primary-100 text-white font-semibold rounded-lg
+            px-4 py-3 mt-6`}
                   >
-                    Inscription
-                  </button>
+                    ooo
+                  </button>: <button
+                    type="submit"
+                    className={` w-full block bg-primary-500 hover:bg-primary-100 focus:bg-primary-100 text-white font-semibold rounded-lg
+            px-4 py-3 mt-6`}
+                  >
+                    Valider
+                  </button>}
                 </form>
                 <div class="flex justify-between items-center mt-3">
                   <hr class="w-full" />{" "}

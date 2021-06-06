@@ -12,9 +12,10 @@ import Close from "@heroicons/react/outline/XIcon";
 import "bulma/css/bulma.css";
 
 import { useState, useEffect, useContext } from "react";
-import AuthContext from "../context/AuthContext";
+import AuthContext, { dataInternal } from "../context/AuthContext";
 import { magic } from "../lib/magic";
 const NavBar = () => {
+const {user}=dataInternal();
   const [isScrollingNav, setIsScrollingNav] = useState({
     shadow: "shadow-none",
     color: "bg-secondary",
@@ -23,6 +24,7 @@ const NavBar = () => {
   const [search, setsearch] = useState("");
 
   useEffect(() => {
+
     window.addEventListener("scroll", scrollingNav);
   }, []);
   function scrollingNav() {
@@ -32,7 +34,8 @@ const NavBar = () => {
       setIsScrollingNav({ shadow: "shadow-none", color: "bg-secondary" });
     }
   }
-  const { user } = useContext(AuthContext);
+  
+  
   const Search = (event) => {
     setisOpenMenu(false);
     event.preventDefault();
@@ -129,17 +132,17 @@ const NavBar = () => {
             </div>
             <div className="dropdown-menu" id="dropdown-menu3" role="menu">
               <div className="dropdown-content">
-                <Link href="/">
-                  <a className="dropdown-item">Contactez-Nous</a>
+                <Link href="/page/contact">
+                  <a className="dropdown-item">Contactez Nous</a>
                 </Link>
-                <Link href="/">
+                <Link href="/page/apropos-de-nous">
                   <a className="dropdown-item">Apropos de Nous </a>
                 </Link>
-                <Link href="/">
-                  <a className="dropdown-item">{`Q&A`} </a>
+                <Link href="/page/faq">
+                  <a className="dropdown-item">{`FAQ`} </a>
                 </Link>
                 <hr className="dropdown-divider" />
-                <Link href="/categories/autre">
+                <Link href="/page/pro">
                   <a className="dropdown-item">O'B2A pro</a>
                 </Link>
               </div>
@@ -166,7 +169,7 @@ const NavBar = () => {
           </form>
 
           <button
-            className="hidden nd:inline-block text-primary-100 
+            className="inline-block text-primary-100 mx-2
                rounded  overflow-visible ml-2 focus:outline-none  hover:text-blue-500
                 hover:scale-110 transition duration-100 transform"
             onClick={() => {
@@ -176,33 +179,22 @@ const NavBar = () => {
             <UserIcon className="h-6" />
           </button>
 
+         
           <button
             className="relative text-primary-100 p-1 rounded 
-           overflow-visible mx-1 focus:outline-none  hover:text-blue-500 
-           hover:scale-110 transition duration-100 transform"
-          >
-            <HeartIcon className="h-6" />
-            <span
-              className="absolute top-1 right-1 inline-flex items-center
-             justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 
-             transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
-            >
-              {user?.favoris?.length ?? 0}
-            </span>
-          </button>
-          <button
-            className="relative text-primary-100 p-1 rounded  overflow-visible mx-2
+             overflow-visible mx-1
            focus:outline-none  hover:text-blue-500 hover:scale-110 transition
            duration-100 transform"
           >
             <BagIcon className="h-6" />
-            <span
+            {/* <span
               className="absolute top-1 right-1 inline-flex items-center 
-            justify-center px-1 py-1 text-xs font-bold leading-none text-red-100
+            justify-center px-2 py-1 text-xs font-bold leading-none text-red-100
             transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
             >
-              {user?.panier?.length ?? 0}
-            </span>
+              {user===null?"0":user?.panier?.length}
+            
+            </span> */}
           </button>
 
           <button
@@ -216,30 +208,12 @@ const NavBar = () => {
       </div>
       <div
         className={`w-screen flex flex-row ${
-          !isOpenMenu ? "translate-y-full" : "translate-y-0"
+          !isOpenMenu && "hidden"
         } duration-200 transition transform `}
       >
         <div className="w-[274px] bg-white">
         <div className="w-full h-[90vh]  p-3 overflow-y-scroll overflow-x-hidden">
-          <div className="py-4 flex flex-row items-center justify-around">
-          <button
-            className="text-primary-100 
-               rounded  overflow-visible ml-2 focus:outline-none  hover:text-blue-500
-                hover:scale-110 transition duration-100 transform"
-            onClick={() => {
-              user === null ? Router.push("/auth") : Router.push("/compte");
-            }}
-          >
-            <UserIcon className="h-8" />
-          </button>
-          <button
-            className=" text-primary-100 p-1 rounded
-           overflow-visible mx-1 focus:outline-none hover:text-blue-500
-            hover:scale-110 transition duration-100 transform"
-          >
-            <SettingIcon className="h-8" />
-          </button>
-          </div>
+   
           <form onSubmit={Search}>
             <div
               className="relative text-gray-600  bg-transparent flex 
@@ -361,7 +335,7 @@ const NavBar = () => {
             <div onClick={()=>{
               
                 setisOpenMenu(false);
-            Router.push('/pages/pro')}}
+            Router.push('/page/pro')}}
               className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
             >
@@ -370,7 +344,7 @@ const NavBar = () => {
             <div onClick={()=>{
               
               setisOpenMenu(false);
-          Router.push('/pages/contact')}}
+          Router.push('/page/contact')}}
               className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
             >
@@ -379,7 +353,7 @@ const NavBar = () => {
             <div onClick={()=>{
               
               setisOpenMenu(false);
-          Router.push('/pages/apropos')}}
+          Router.push('/page/apropos-de-nous')}}
               className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
             >
@@ -388,7 +362,7 @@ const NavBar = () => {
             <div onClick={()=>{
               
               setisOpenMenu(false);
-          Router.push('/pages/faq')}}
+          Router.push('/page/faq')}}
               className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
             >

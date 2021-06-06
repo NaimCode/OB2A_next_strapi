@@ -15,7 +15,7 @@ export default function Home(props) {
       <CategorieSection />
       <ProductsListNouveau produits={props.produits} />
 
-      <ProductsListPromotion produits={props.produits} />
+      <ProductsListPromotion produits={props.produits} /> 
       <CollectionsSection collections={props.collections} />
     </div>
   );
@@ -31,7 +31,9 @@ const CategorieSection = () => {
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-16 mx-auto">
           <div className="flex flex-wrap -m-4 ">
+          <Link href="/categorie/femme">
             <div className="group w-screen md:w-1/3">
+            
               <div className=" h-[400px]  m-4 cursor-pointer  bg-secondary overflow-hidden md:h-[500px]">
                 <img
                   alt="gallery"
@@ -43,7 +45,10 @@ const CategorieSection = () => {
               <h3 className="text-xl text-primary-100 group-hover:text-primary-300 font-logo text-center md:text-3xl">
                 Femme
               </h3>
+          
             </div>
+            </Link>
+            <Link href="/categorie/homme">
             <div className="group w-screen md:w-1/3">
               <div className=" h-[350px]  m-4 cursor-pointer  bg-secondary overflow-hidden md:h-[500px]">
                 <img
@@ -57,6 +62,8 @@ const CategorieSection = () => {
                 Homme
               </h3>
             </div>
+            </Link>
+            <Link href="/categorie/enfant">
             <div className="group w-screen md:w-1/3">
               <div className=" h-[350px]  m-4 cursor-pointer  bg-secondary overflow-hidden md:h-[500px]">
                 <img
@@ -70,6 +77,7 @@ const CategorieSection = () => {
                 Enfant
               </h3>
             </div>
+            </Link>
           </div>
         </div>
       </section>
@@ -137,7 +145,7 @@ const CollectionsSection = ({ collections }) => {
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-12 mx-auto flex flex-wrap">
           <div className="lg:w-4/5 mx-auto overflow-hidden">
-            <Link href="#">
+            <Link href={`/collection/${collections[0].slug}`}>
               <a>
                 <div className="group w-full bg-black py-16 relative  overflow-hidden mb-4 cursor-pointer ">
                   <img
@@ -162,7 +170,7 @@ const CollectionsSection = ({ collections }) => {
             </Link>
           </div>
           <div className="lg:w-4/5 mx-auto overflow-hidden grid grid-cols-2 gap-4 justify-center items-center">
-            <Link href="#" className="">
+            <Link href={`/collection/${collections[1].slug}`} className="">
               <a>
                 <div className="group w-full bg-black py-16 relative  overflow-hidden mb-4 cursor-pointer ">
                   <img
@@ -186,7 +194,7 @@ const CollectionsSection = ({ collections }) => {
               </a>
             </Link>
 
-            <Link href="#" className="">
+            <Link href={`/collection/${collections[2].slug}`} className="">
               <a>
                 <div className="group w-full bg-black py-16 relative  overflow-hidden mb-4 cursor-pointer ">
                   <img
@@ -252,6 +260,7 @@ const Hero = () => {
 };
 
 export async function getStaticProps() {
+  
   const collection_res = await fetch(`${API_URL}/collections/`);
   const produit_res = await fetch(`${API_URL}/produits/`);
   const collections = await collection_res.json();
