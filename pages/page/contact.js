@@ -68,12 +68,11 @@ const contact = ({email,adresse}) => {
 
 
 export async function getStaticProps(){
-    const data_res=await fetch(`${API_URL}/donnees`);
-    const data=await data_res.json();
+  
     return {
         props:{
-            adresse:data.Adresse,
-            email:data.ContactEmail
+            adresse:"name@gmal",
+            email:"fdfdfdfd"
             
         }
     }
