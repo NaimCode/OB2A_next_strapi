@@ -9,7 +9,7 @@ import { magic } from "../lib/magic";
 const SignLog = () => {
   const [email, setEmail] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const {user, setUser} = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   // Redirec to /profile if the user is logged in
   // useEffect(() => {
@@ -22,9 +22,9 @@ const SignLog = () => {
 
       // Trigger Magic link to be sent to user
       let didToken = await magic.auth.loginWithMagicLink(
-        {email }// optional redirect back to your app after magic link is clicked
+        { email } // optional redirect back to your app after magic link is clicked
       );
-    console.log(didToken);
+      console.log(didToken);
       // Validate didToken with server
       const res = await fetch(`${API_URL}/users/me`, {
         method: "GET",
@@ -33,15 +33,14 @@ const SignLog = () => {
           Authorization: "Bearer " + didToken,
         },
       });
-     const user=await res.json();
-     console.log(user);
+      const user = await res.json();
+      console.log(user);
       if (res.status === 200) {
         // Set the UserContext to the now logged in user
-      
+
         await setUser(user);
         Router.push("/");
         setDisabled(false);
-
       }
     } catch (error) {
       setDisabled(false); // re-enable login button - user may have requested to edit their email
@@ -65,7 +64,7 @@ const SignLog = () => {
 
       <section className="flex flex-col py-16 md:flex-row h-screen items-center justify-center">
         {disabled ? (
-         <Loading/>
+          <Loading />
         ) : (
           <>
             {" "}
@@ -93,8 +92,8 @@ const SignLog = () => {
                 <form className="mt-6" onSubmit={handleSubmit} method="POST">
                   <div>
                     <input
-                    value={email}
-                    onChange={(event)=>setEmail(event.target.value)}
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
                       type="email"
                       name=""
                       placeholder="Email"
@@ -105,20 +104,24 @@ const SignLog = () => {
                     />
                   </div>
 
-                 {disabled? <button
-                    type="submit"
-                    disabled={true}
-                    className={` w-full block bg-primary-500 hover:bg-primary-100 focus:bg-primary-100 text-white font-semibold rounded-lg
+                  {disabled ? (
+                    <button
+                      type="submit"
+                      disabled={true}
+                      className={` w-full block bg-primary-500 hover:bg-primary-100 focus:bg-primary-100 text-white font-semibold rounded-lg
             px-4 py-3 mt-6`}
-                  >
-                    ooo
-                  </button>: <button
-                    type="submit"
-                    className={` w-full block bg-primary-500 hover:bg-primary-100 focus:bg-primary-100 text-white font-semibold rounded-lg
+                    >
+                      ooo
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className={` w-full block bg-primary-500 hover:bg-primary-100 focus:bg-primary-100 text-white font-semibold rounded-lg
             px-4 py-3 mt-6`}
-                  >
-                    Valider
-                  </button>}
+                    >
+                      Valider
+                    </button>
+                  )}
                 </form>
                 <div class="flex justify-between items-center mt-3">
                   <hr class="w-full" />{" "}

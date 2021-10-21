@@ -1,7 +1,5 @@
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
-export const MAGIC_PUBLIC_KEY =
-  process.env.NEXT_PUBLIC_MAGIC_PUBLIC_KEY || "pk_test_190829973FDE1886";
+export const API_URL = process.env.API_URL || "https://ob2a.herokuapp.com";
+
 export const getImageUrlSmall = (image) => {
   const img = image[0] ?? image;
   if (!img) return;

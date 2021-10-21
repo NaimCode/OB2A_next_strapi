@@ -78,7 +78,7 @@ export async function getServerSideProps(context){
     // })
     
     const query=context.query.slug;
-    console.log(filter)
+    
     return {
         props:{
         filter,query

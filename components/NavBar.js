@@ -7,15 +7,13 @@ import SettingIcon from "@heroicons/react/outline/CogIcon";
 import UserIcon from "@heroicons/react/outline/UserIcon";
 import MenuIcon from "@heroicons/react/outline/MenuAlt2Icon";
 import Router from "next/router";
-import Down from '@heroicons/react/outline/ChevronDownIcon'
+import Down from "@heroicons/react/outline/ChevronDownIcon";
 import Close from "@heroicons/react/outline/XIcon";
 import "bulma/css/bulma.css";
 
 import { useState, useEffect, useContext } from "react";
-import AuthContext, { dataInternal } from "../context/AuthContext";
-import { magic } from "../lib/magic";
+
 const NavBar = () => {
-const {user}=dataInternal();
   const [isScrollingNav, setIsScrollingNav] = useState({
     shadow: "shadow-none",
     color: "bg-secondary",
@@ -24,7 +22,6 @@ const {user}=dataInternal();
   const [search, setsearch] = useState("");
 
   useEffect(() => {
-
     window.addEventListener("scroll", scrollingNav);
   }, []);
   function scrollingNav() {
@@ -34,8 +31,7 @@ const {user}=dataInternal();
       setIsScrollingNav({ shadow: "shadow-none", color: "bg-secondary" });
     }
   }
-  
-  
+
   const Search = (event) => {
     setisOpenMenu(false);
     event.preventDefault();
@@ -90,8 +86,11 @@ const {user}=dataInternal();
             </div>
             <div className="dropdown-menu" id="dropdown-menu3" role="menu">
               <div className="dropdown-content">
-                <Link href="/categorie/accessoire">
+                <Link href="/categorie/accessoires">
                   <a className="dropdown-item">Accessoires</a>
+                </Link>
+                <Link href="/categorie/beaute-et-cosmetique">
+                  <a className="dropdown-item">Beauté et cosmétique</a>
                 </Link>
                 <Link href="/categorie/enfant">
                   <a className="dropdown-item">Enfant</a>
@@ -105,7 +104,7 @@ const {user}=dataInternal();
                 <Link href="/categorie/epicerie">
                   <a className="dropdown-item">Épicerie</a>
                 </Link>
-                <Link href="/categorie/electromenager">
+                <Link href="/categorie/electromenagers">
                   <a className="dropdown-item">Électroménagers</a>
                 </Link>
                 <Link href="/categorie/maison">
@@ -179,7 +178,6 @@ const {user}=dataInternal();
             <UserIcon className="h-6" />
           </button>
 
-         
           <button
             className="relative text-primary-100 p-1 rounded 
              overflow-visible mx-1
@@ -212,166 +210,185 @@ const {user}=dataInternal();
         } duration-200 transition transform `}
       >
         <div className="w-[274px] bg-white">
-        <div className="w-full h-[90vh]  p-3 overflow-y-scroll overflow-x-hidden">
-   
-          <form onSubmit={Search}>
-            <div
-              className="relative text-gray-600  bg-transparent flex 
+          <div className="w-full h-[90vh]  p-3 overflow-y-scroll overflow-x-hidden">
+            <form onSubmit={Search}>
+              <div
+                className="relative text-gray-600  bg-transparent flex 
           flex-row rounded-md border-green-300 border-solid border-2 justify-between"
-            >
-              <input
-                className="outline-none p-2 bg-transparent "
-                placeholder="Recherche"
-                value={search}
-                onChange={(event) => setsearch(event.target.value)}
-                type="search"
-              ></input>
-              <button type="submit" className="focus:outline-none mx-3">
-                <SearchIcon className="h-6 text-primary-100" />
-              </button>
-            </div>
-          </form>
-       
-            <div onClick={()=>{
-              setisOpenMenu(false);
-              Router.push('/')}}
+              >
+                <input
+                  className="outline-none p-2 bg-transparent "
+                  placeholder="Recherche"
+                  value={search}
+                  onChange={(event) => setsearch(event.target.value)}
+                  type="search"
+                ></input>
+                <button type="submit" className="focus:outline-none mx-3">
+                  <SearchIcon className="h-6 text-primary-100" />
+                </button>
+              </div>
+            </form>
+
+            <div
+              onClick={() => {
+                setisOpenMenu(false);
+                Router.push("/");
+              }}
               className="hover:bg-secondary cursor-pointer w-full my-2 p-1 rounded
              text-primary-700 text-2xl font-logo"
             >
               Accueil
             </div>
-            <div onClick={()=>{
-              setisOpenMenu(false);Router.push('/produits')}}
+            <div
+              onClick={() => {
+                setisOpenMenu(false);
+                Router.push("/produits");
+              }}
               className="hover:bg-secondary cursor-pointer w-full my-2 p-1 rounded
              text-primary-700 text-2xl font-logo"
             >
               Explorer
             </div>
-            <div 
+            <div
               className="  w-full mt-2 p-1 rounded
-             text-primary-700 text-2xl font-logo flex flex-row items-center justify-between" 
+             text-primary-700 text-2xl font-logo flex flex-row items-center justify-between"
             >
-             Catégories
-             <Down className="h-6 text-primary-700"/>
+              Catégories
+              <Down className="h-6 text-primary-700" />
             </div>
             <div className="pl-10 pt-1 pb-3 ">
-            <div onClick={()=>
-            {
-              setisOpenMenu(false);
-            Router.push('/categorie/accessoire')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/categorie/accessoires");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
-            >
-            • Accessoires
-            </div>
-            <div onClick={()=>  {
-              setisOpenMenu(false);
-            Router.push('/categorie/enfant')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • Accessoires
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/categorie/enfant");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500  "
-            >
-             • Enfant
-            </div>
-            <div onClick={()=>  {
-              setisOpenMenu(false);
-            Router.push('/categorie/homme')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • Enfant
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/categorie/homme");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
-            >
-            • Homme
-            </div>
-            <div onClick={()=>  {
-              setisOpenMenu(false);
-            Router.push('/categorie/femme')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • Homme
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/categorie/femme");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
              text-gray-500  "
-            >
-            •  Femme
-            </div>
-            <div onClick={()=>  {
-              setisOpenMenu(false);
-            Router.push('/categorie/epicerie')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • Femme
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/categorie/epicerie");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
              text-gray-500  "
-            >
-            •  Épicerie
-            </div>
-            <div onClick={()=>  {
-              setisOpenMenu(false);
-            Router.push('/categorie/electromenager')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • Épicerie
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/categorie/electromenager");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
              text-gray-500  "
-            >
-            • Électroménagers
-            </div>
-            <div onClick={()=>  {
-              setisOpenMenu(false);
-            Router.push('/categorie/maison')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • Électroménagers
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/categorie/maison");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
              text-gray-500  "
-            >
-            •  Maison
-            </div>
-            <div onClick={()=>  {
-              setisOpenMenu(false);
-            Router.push('/categorie/autre')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • Maison
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/categorie/autre");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
              text-gray-500  "
-            >
-            •  Autre
+              >
+                • Autre
+              </div>
             </div>
-            </div>
-          
 
-
-            <div 
+            <div
               className="  w-full mt-2 p-1 rounded
-             text-primary-700 text-2xl font-logo flex flex-row items-center justify-between" 
+             text-primary-700 text-2xl font-logo flex flex-row items-center justify-between"
             >
-             Pages
-             <Down className="h-6 text-primary-700"/>
+              Pages
+              <Down className="h-6 text-primary-700" />
             </div>
             <div className="pl-10 pt-1 pb-3 ">
-            <div onClick={()=>{
-              
-                setisOpenMenu(false);
-            Router.push('/page/pro')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/page/pro");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
-            >
-            • O'B2A{" "}pro
-            </div>
-            <div onClick={()=>{
-              
-              setisOpenMenu(false);
-          Router.push('/page/contact')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • O'B2A pro
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/page/contact");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
-            >
-            • Contactez Nous
-            </div>
-            <div onClick={()=>{
-              
-              setisOpenMenu(false);
-          Router.push('/page/apropos-de-nous')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • Contactez Nous
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/page/apropos-de-nous");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
-            >
-            • Apropos de Nous
-            </div>
-            <div onClick={()=>{
-              
-              setisOpenMenu(false);
-          Router.push('/page/faq')}}
-              className="hover:bg-secondary cursor-pointer w-full rounded p-1
+              >
+                • Apropos de Nous
+              </div>
+              <div
+                onClick={() => {
+                  setisOpenMenu(false);
+                  Router.push("/page/faq");
+                }}
+                className="hover:bg-secondary cursor-pointer w-full rounded p-1
               text-gray-500 "
-            >
-            • FAQ
+              >
+                • FAQ
+              </div>
             </div>
-            </div>
-
-     
-        </div>
+          </div>
         </div>
         <div
           onClick={() => setisOpenMenu(!isOpenMenu)}

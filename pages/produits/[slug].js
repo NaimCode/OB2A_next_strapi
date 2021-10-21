@@ -8,12 +8,8 @@ import Head from "next/head";
 import BagShop from "@heroicons/react/solid/ShoppingBagIcon";
 import Fav from "@heroicons/react/solid/HeartIcon";
 
-import AuthContext, { dataInternal } from "../../context/AuthContext";
-import { magic } from "../../lib/magic";
 const slug = ({ produit }) => {
   const [isLoading, setisLoading] = useState(false);
-  const data = dataInternal();
-  const { user, setUser, setcount, count } = useContext(AuthContext);
 
   const addRemoveFav = async () => {
     setisLoading(true);
@@ -118,26 +114,23 @@ const slug = ({ produit }) => {
                 <span class="title-font font-medium text-2xl text-gray-900">
                   ${produit.prix}
                 </span>
-            
-             <button
-                    onClick={addRemoveFav}
-                    class="  ml-auto font-logo text-black bg-secondary border-0 py-1 px-3 focus:outline-none hover:bg-primary-300 rounded"
-                  >
-                    <span>Acheter</span>
-                  </button>
+
+                <button
+                  onClick={addRemoveFav}
+                  class="  ml-auto font-logo text-black bg-secondary border-0 py-1 px-3 focus:outline-none hover:bg-primary-300 rounded"
+                >
+                  <span>Acheter</span>
+                </button>
                 {/* {isLoading ? (
                   <button class="button is-loading">Loading button</button>
                 ) : ( */}
-                  <button
-                    onClick={addRemoveFav}
-                    class="  ml-auto font-logo text-white bg-primary-100 border-0 py-1 px-3 focus:outline-none hover:bg-primary-300 rounded"
-                  >
-                    <span>Ajouter au Panier</span>
-                  </button>
+                <button
+                  onClick={addRemoveFav}
+                  class="  ml-auto font-logo text-white bg-primary-100 border-0 py-1 px-3 focus:outline-none hover:bg-primary-300 rounded"
+                >
+                  <span>Ajouter au Panier</span>
+                </button>
                 {/* )} */}
-          
-               
-                
               </div>
             </div>
             <div className="">

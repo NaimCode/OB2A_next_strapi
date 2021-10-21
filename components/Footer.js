@@ -1,9 +1,7 @@
 import { Logo } from "../components/Mini";
 import Link from "next/link";
-import { dataInternal } from "../context/AuthContext";
 
 const Footer = () => {
-
   return (
     <footer className="text-gray-600 body-font bg-secondary">
       <div className="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
@@ -15,7 +13,6 @@ const Footer = () => {
                 alt="Logo O'B2A"
                 className="h-24 hover:animate-bounce"
               />
-         
             </a>
           </Link>
           <p className="mt-2 text-base text-gray-500">
@@ -85,8 +82,7 @@ const Footer = () => {
       <div className="bg-gray-100">
         <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
           <p className="text-gray-500 text-sm text-center sm:text-left">
-            © 2021 O'B2A 
-        
+            © 2021 O'B2A
           </p>
           <span className="inline-flex sm:ml-auto sm:mt-0 mt-2 justify-center sm:justify-start">
             <a className="text-gray-500">
