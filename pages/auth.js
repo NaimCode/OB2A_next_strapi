@@ -4,9 +4,8 @@ import { useEffect, useContext, useState } from "react";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "./Config/firebase";
+import { auth, getUser } from "./Config/firebase";
 
 const SignLog = () => {
   const [email, setEmail] = useState("");
@@ -14,29 +13,20 @@ const SignLog = () => {
   const [disabled, setDisabled] = useState(false);
   const [user, setuser] = useState({});
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        console.log(user);
-        setuser(user);
-        // ...
-      } else {
-        // User is signed out
-        // ...
-      }
-    });
+    getUser(setuser);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const auth = getAuth();
+
     try {
-      const user = signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
+      await signInWithEmailAndPassword(auth, email, password);
     }
   };
+
   return (
     <div>
       <Head>
