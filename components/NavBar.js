@@ -171,9 +171,7 @@ const NavBar = () => {
             className="inline-block text-primary-100 mx-2
                rounded  overflow-visible ml-2 focus:outline-none  hover:text-blue-500
                 hover:scale-110 transition duration-100 transform"
-            onClick={() => {
-              user === null ? Router.push("/auth") : Router.push("/compte");
-            }}
+            onClick={() => Router.push("/auth")}
           >
             <UserIcon className="h-6" />
           </button>

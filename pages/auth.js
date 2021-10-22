@@ -1,55 +1,41 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useContext, useState } from "react";
-import { useRouter } from "next/router";
-import Router from "next/router";
-import AuthContext, { Loading } from "../context/AuthContext";
-import { API_URL } from "../utils/GetImageUrl";
-import { magic } from "../lib/magic";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { auth } from "./Config/firebase";
+
 const SignLog = () => {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const { user, setUser } = useContext(AuthContext);
-
-  // Redirec to /profile if the user is logged in
-  // useEffect(() => {
-  //   user?.issuer && Router.push("/compte");
-  // }, [user]);
-
-  async function handleLoginWithEmail(email) {
-    try {
-      setDisabled(true); // disable login button to prevent multiple emails from being triggered
-
-      // Trigger Magic link to be sent to user
-      let didToken = await magic.auth.loginWithMagicLink(
-        { email } // optional redirect back to your app after magic link is clicked
-      );
-      console.log(didToken);
-      // Validate didToken with server
-      const res = await fetch(`${API_URL}/users/me`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + didToken,
-        },
-      });
-      const user = await res.json();
-      console.log(user);
-      if (res.status === 200) {
-        // Set the UserContext to the now logged in user
-
-        await setUser(user);
-        Router.push("/");
-        setDisabled(false);
+  const [user, setuser] = useState({});
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        console.log(user);
+        setuser(user);
+        // ...
+      } else {
+        // User is signed out
+        // ...
       }
-    } catch (error) {
-      setDisabled(false); // re-enable login button - user may have requested to edit their email
-      console.log(error);
-    }
-  }
+    });
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    handleLoginWithEmail(email);
+    // const auth = getAuth();
+    try {
+      const user = signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <div>
@@ -61,7 +47,7 @@ const SignLog = () => {
         />
         <link rel="icon" href="/assets/logo_mini_blue.png" />
       </Head>
-
+      <div className="p-36">{user.email}</div>
       <section className="flex flex-col py-16 md:flex-row h-screen items-center justify-center">
         {disabled ? (
           <Loading />
@@ -92,14 +78,24 @@ const SignLog = () => {
                 <form className="mt-6" onSubmit={handleSubmit} method="POST">
                   <div>
                     <input
-                      value={email}
                       onChange={(event) => setEmail(event.target.value)}
                       type="email"
-                      name=""
+                      name="email"
                       placeholder="Email"
                       className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                       autoFocus
                       autoComplete="email"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <input
+                      onChange={(event) => setPassword(event.target.value)}
+                      type="password"
+                      name="password"
+                      placeholder="Mot de passe"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                      autoFocus
                       required
                     />
                   </div>
