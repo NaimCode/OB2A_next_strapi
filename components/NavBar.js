@@ -12,8 +12,8 @@ import Close from "@heroicons/react/outline/XIcon";
 import "bulma/css/bulma.css";
 
 import { useState, useEffect, useContext } from "react";
-
-const NavBar = () => {
+import { getUser } from "../pages/Config/firebase";
+const NavBar = ({ user }) => {
   const [isScrollingNav, setIsScrollingNav] = useState({
     shadow: "shadow-none",
     color: "bg-secondary",
@@ -166,24 +166,27 @@ const NavBar = () => {
               </button>
             </div>
           </form>
-
-          <button
-            className="inline-block text-primary-100 mx-2
+          {!user ? (
+            <div className="p-3 mx-3">connexion</div>
+          ) : (
+            <>
+              <button
+                className="inline-block text-primary-100 mx-2
                rounded  overflow-visible ml-2 focus:outline-none  hover:text-blue-500
                 hover:scale-110 transition duration-100 transform"
-            onClick={() => Router.push("/auth")}
-          >
-            <UserIcon className="h-6" />
-          </button>
+                onClick={() => Router.push("/auth")}
+              >
+                <UserIcon className="h-6" />
+              </button>
 
-          <button
-            className="relative text-primary-100 p-1 rounded 
+              <button
+                className="relative text-primary-100 p-1 rounded 
              overflow-visible mx-1
            focus:outline-none  hover:text-blue-500 hover:scale-110 transition
            duration-100 transform"
-          >
-            <BagIcon className="h-6" />
-            {/* <span
+              >
+                <BagIcon className="h-6" />
+                {/* <span
               className="absolute top-1 right-1 inline-flex items-center 
             justify-center px-2 py-1 text-xs font-bold leading-none text-red-100
             transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
@@ -191,7 +194,9 @@ const NavBar = () => {
               {user===null?"0":user?.panier?.length}
             
             </span> */}
-          </button>
+              </button>
+            </>
+          )}
 
           <button
             className="hidden nd:inline-block text-primary-100 p-1 rounded

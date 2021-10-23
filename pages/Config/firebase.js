@@ -33,8 +33,10 @@ try {
 export const auth = getAuth(app);
 
 ///
-export const getUser = (setuser) => {
+export const getUser = (setuser, setisLoading) => {
   onAuthStateChanged(auth, (user) => {
-    user ? setuser(user) : setuser({});
+    setisLoading(true);
+    user ? setuser(user) : setuser(null);
+    setisLoading(false);
   });
 };

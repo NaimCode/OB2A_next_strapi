@@ -11,9 +11,10 @@ const SignLog = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const [user, setuser] = useState({});
+  const [user, setuser] = useState(null);
+  const [isLoading, setisLoading] = useState(true);
   useEffect(() => {
-    getUser(setuser);
+    getUser(setuser, setisLoading);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -37,7 +38,7 @@ const SignLog = () => {
         />
         <link rel="icon" href="/assets/logo_mini_blue.png" />
       </Head>
-      <div className="p-36">{user.email}</div>
+      <div className="p-36">{user && user.email}</div>
       <section className="flex flex-col py-16 md:flex-row h-screen items-center justify-center">
         {disabled ? (
           <Loading />
