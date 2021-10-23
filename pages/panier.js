@@ -21,9 +21,11 @@ const Panier = () => {
       if (user) {
         const res = await axios.get(`${API_URL}/clients?email=${user.email}`);
         setuserStrapi(res.data[0]);
+        let prix = 0.0;
         for (let i = 0; i < res.data[0].panier.length; i++) {
-          settotalPrice(totalPrice + res.data[0].panier[i].prix);
+          prix += res.data[0].panier[i].prix;
         }
+        settotalPrice(prix);
       }
     });
   }, []);
