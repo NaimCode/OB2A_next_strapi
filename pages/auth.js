@@ -1,11 +1,15 @@
 import Head from "next/head";
+import router from "next/router";
 import Link from "next/link";
+import axios from "axios";
 import { useEffect, useContext, useState } from "react";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { auth, getUser } from "./Config/firebase";
+import { Loading, MiniLoading } from "../components/Loading";
+import { API_URL } from "../utils/GetImageUrl";
 
 const SignLog = () => {
   const [email, setEmail] = useState("");
@@ -19,13 +23,37 @@ const SignLog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setisLoading(true);
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      await axios.post(`${API_URL}/clients`, {
+        nom: "non défini",
+        email: email,
+        password: password,
+        provider: "email-password",
+        panier: [],
+        commande: [],
+      });
+
+      router.back();
     } catch (error) {
-      console.log(error);
-      await signInWithEmailAndPassword(auth, email, password);
+      console.log(error.code);
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          try {
+            await signInWithEmailAndPassword(auth, email, password);
+            router.back();
+          } catch (error) {}
+
+          break;
+
+        default:
+          console.log(error.code);
+          break;
+      }
     }
+    setisLoading(false);
   };
 
   return (
@@ -38,7 +66,6 @@ const SignLog = () => {
         />
         <link rel="icon" href="/assets/logo_mini_blue.png" />
       </Head>
-      <div className="p-36">{user && user.email}</div>
       <section className="flex flex-col py-16 md:flex-row h-screen items-center justify-center">
         {disabled ? (
           <Loading />
@@ -91,16 +118,7 @@ const SignLog = () => {
                     />
                   </div>
 
-                  {disabled ? (
-                    <button
-                      type="submit"
-                      disabled={true}
-                      className={` w-full block bg-primary-500 hover:bg-primary-100 focus:bg-primary-100 text-white font-semibold rounded-lg
-            px-4 py-3 mt-6`}
-                    >
-                      ooo
-                    </button>
-                  ) : (
+                  {!isLoading && (
                     <button
                       type="submit"
                       className={` w-full block bg-primary-500 hover:bg-primary-100 focus:bg-primary-100 text-white font-semibold rounded-lg
@@ -109,6 +127,7 @@ const SignLog = () => {
                       Valider
                     </button>
                   )}
+                  {isLoading && <MiniLoading />}
                 </form>
                 <div class="flex justify-between items-center mt-3">
                   <hr class="w-full" />{" "}

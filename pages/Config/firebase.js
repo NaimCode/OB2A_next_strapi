@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApp } from "@firebase/app";
 import { getAuth } from "@firebase/auth";
-import { onAuthStateChanged } from "@firebase/auth";
+import { onAuthStateChanged, signOut } from "@firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -33,6 +33,9 @@ try {
 export const auth = getAuth(app);
 
 ///
+export const logOut = async () => {
+  await signOut(auth);
+};
 export const getUser = (setuser, setisLoading) => {
   onAuthStateChanged(auth, (user) => {
     setisLoading(true);

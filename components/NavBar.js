@@ -13,6 +13,8 @@ import "bulma/css/bulma.css";
 
 import { useState, useEffect, useContext } from "react";
 import { getUser } from "../pages/Config/firebase";
+import axios from "axios";
+import { API_URL } from "../utils/GetImageUrl";
 const NavBar = ({ user }) => {
   const [isScrollingNav, setIsScrollingNav] = useState({
     shadow: "shadow-none",
@@ -20,9 +22,16 @@ const NavBar = ({ user }) => {
   });
   const [isOpenMenu, setisOpenMenu] = useState(false);
   const [search, setsearch] = useState("");
-
+  const [userStrapi, setuserStrapi] = useState(null);
   useEffect(() => {
     window.addEventListener("scroll", scrollingNav);
+    axios
+      .get(`${API_URL}/clients?email=${user.email}`)
+      .then((res) => {
+        console.log(res.data[0]);
+        setuserStrapi(res.data[0]);
+      })
+      .catch((error) => console.log(error));
   }, []);
   function scrollingNav() {
     if (window.scrollY > 1) {
@@ -167,14 +176,21 @@ const NavBar = ({ user }) => {
             </div>
           </form>
           {!user ? (
-            <div className="p-3 mx-3">connexion</div>
+            <button
+              onClick={() => Router.push("/auth")}
+              className="focus:outline-none py-1 px-2 mx-3 border-primary-100 border-[1px] font-semibold transition-all duration-300 hover:scale-105  rounded-xl"
+            >
+              connexion
+            </button>
           ) : (
             <>
               <button
                 className="inline-block text-primary-100 mx-2
                rounded  overflow-visible ml-2 focus:outline-none  hover:text-blue-500
                 hover:scale-110 transition duration-100 transform"
-                onClick={() => Router.push("/auth")}
+                onClick={() => {
+                  Router.push("/compte");
+                }}
               >
                 <UserIcon className="h-6" />
               </button>
@@ -186,14 +202,13 @@ const NavBar = ({ user }) => {
            duration-100 transform"
               >
                 <BagIcon className="h-6" />
-                {/* <span
-              className="absolute top-1 right-1 inline-flex items-center 
+                <span
+                  className="absolute top-1 right-1 inline-flex items-center 
             justify-center px-2 py-1 text-xs font-bold leading-none text-red-100
             transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"
-            >
-              {user===null?"0":user?.panier?.length}
-            
-            </span> */}
+                >
+                  {userStrapi && userStrapi.panier.length}
+                </span>
               </button>
             </>
           )}

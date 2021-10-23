@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { ShowNavFooter } from "../utils/GlobalFunction";
 
 import NextNprogress from "nextjs-progressbar";
-import Loading from "./Loading";
+import { Loading } from "./Loading";
 
 const App = ({ component }) => {
   const [user, setuser] = useState(null);
@@ -23,7 +23,7 @@ const App = ({ component }) => {
           <NextNprogress
             color="#29D"
             startPosition={0.5}
-            stopDelayMs={200}
+            stopDelayMs={100}
             height="3"
           />
           {ShowNavFooter() && <NavBar user={user} />}
