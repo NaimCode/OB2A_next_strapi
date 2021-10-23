@@ -12,7 +12,7 @@ import Close from "@heroicons/react/outline/XIcon";
 import "bulma/css/bulma.css";
 
 import { useState, useEffect, useContext } from "react";
-import { getUser } from "../pages/Config/firebase";
+
 import axios from "axios";
 import { API_URL } from "../utils/GetImageUrl";
 const NavBar = ({ user }) => {

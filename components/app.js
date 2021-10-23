@@ -1,5 +1,5 @@
 import { Children, useEffect, useState } from "react";
-import { getUser } from "../pages/Config/firebase";
+import { getUser } from "../Config/firebase";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useRouter } from "next/router";

@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { auth, getUser } from "./Config/firebase";
+import { auth, getUser } from "../Config/firebase";
 import { Loading, MiniLoading } from "../components/Loading";
 import { API_URL } from "../utils/GetImageUrl";
 

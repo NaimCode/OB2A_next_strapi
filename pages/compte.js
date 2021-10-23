@@ -1,7 +1,7 @@
 import Router from "next/router";
 
 import { useEffect, useState } from "react";
-import { getUser, logOut } from "./Config/firebase";
+import { getUser, logOut } from "../Config/firebase";
 const compte = () => {
   const [user, setuser] = useState();
   const [isLoading, setisLoading] = useState(true);

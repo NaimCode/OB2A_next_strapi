@@ -2,7 +2,7 @@ import { API_URL, getImageUrl, getImageUrlSmall } from "../utils/GetImageUrl";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import { onAuthStateChanged } from "@firebase/auth";
-import { auth } from "./Config/firebase";
+import { auth } from "../Config/firebase";
 import axios from "axios";
 import router from "next/router";
 import { MiniLoading } from "../components/Loading";
