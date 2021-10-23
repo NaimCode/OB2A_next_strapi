@@ -3,37 +3,53 @@ import {
   getImageUrl,
   getImageUrlSmall,
 } from "../../utils/GetImageUrl";
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
-import BagShop from "@heroicons/react/solid/ShoppingBagIcon";
-import Fav from "@heroicons/react/solid/HeartIcon";
-
+import { onAuthStateChanged } from "@firebase/auth";
+import { auth, getUser } from "../Config/firebase";
+import axios from "axios";
+import router from "next/router";
+import { MiniLoading } from "../../components/Loading";
+import { BsCartPlusFill, BsCartXFill } from "react-icons/bs";
+import { MdPayments } from "react-icons/md";
 const slug = ({ produit }) => {
   const [isLoading, setisLoading] = useState(false);
+  const [user, setuser] = useState(null);
+  const [userStrapi, setuserStrapi] = useState(null);
 
-  const addRemoveFav = async () => {
+  const [imagePrincipal, setimagePrincipal] = useState(produit.image[0]);
+  ///
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      user ? setuser(user) : setuser(null);
+      if (user) {
+        const res = await axios.get(`${API_URL}/clients?email=${user.email}`);
+        setuserStrapi(res.data[0]);
+      }
+    });
+  }, []);
+  ///
+  const removeFromPanier = () => {
     setisLoading(true);
-    user.panier.push(produit);
-    const tokenId = await magic.user.getIdToken();
-    console.log(tokenId);
-    await fetch(`${API_URL}/users/${user.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + tokenId,
-      },
-      body: JSON.stringify({
-        panier: user.panier,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-
+    axios
+      .put(`${API_URL}/clients/${userStrapi.id}`, {
+        panier: userStrapi.panier.filter((p) => p.id != produit.id),
+      })
+      .then((res) => router.reload())
+      .catch((error) => console.log(error));
     setisLoading(false);
   };
-  const [imagePrincipal, setimagePrincipal] = useState(produit.image[0]);
+  //
+  const addToPanier = () => {
+    setisLoading(true);
+    axios
+      .put(`${API_URL}/clients/${userStrapi.id}`, {
+        panier: [...userStrapi.panier, produit],
+      })
+      .then((res) => router.reload())
+      .catch((error) => console.log(error));
+    setisLoading(false);
+  };
   return (
     <div className="py-24 px-2">
       <Head>
@@ -116,21 +132,41 @@ const slug = ({ produit }) => {
                 </span>
 
                 <button
-                  onClick={addRemoveFav}
-                  class="  ml-auto font-logo text-black bg-secondary border-0 py-1 px-3 focus:outline-none hover:bg-primary-300 rounded"
+                  onClick={() => {}}
+                  class="  ml-auto font-logo text-black bg-secondary border-0 py-1 px-3 focus:outline-none rounded transition-all duration-300 hover:scale-110"
                 >
-                  <span>Acheter</span>
+                  <span className="flex flex-row gap-2 items-center justify-center">
+                    <MdPayments className=" mr-2" />
+                    Acheter
+                  </span>
                 </button>
                 {/* {isLoading ? (
                   <button class="button is-loading">Loading button</button>
                 ) : ( */}
-                <button
-                  onClick={addRemoveFav}
-                  class="  ml-auto font-logo text-white bg-primary-100 border-0 py-1 px-3 focus:outline-none hover:bg-primary-300 rounded"
-                >
-                  <span>Ajouter au Panier</span>
-                </button>
-                {/* )} */}
+
+                {isLoading ? (
+                  <MiniLoading />
+                ) : userStrapi &&
+                  userStrapi.panier.some((p) => p.id === produit.id) ? (
+                  <button
+                    onClick={removeFromPanier}
+                    class="  ml-auto font-logo text-black bg-secondary border-0 py-1 px-3 focus:outline-none rounded transition-all duration-300 hover:scale-110"
+                  >
+                    <span className="flex flex-row gap-2 items-center justify-center">
+                      <BsCartXFill className="mb-1 mr-2" />
+                      Retirer du panier
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={addToPanier}
+                    class="  ml-auto font-logo text-black bg-secondary border-0 py-1 px-3 focus:outline-none rounded transition-all duration-300 hover:scale-110"
+                  >
+                    <span className="flex flex-row gap-2 items-center justify-center">
+                      <BsCartPlusFill className="mb-1 mr-2" /> Ajouter au Panier
+                    </span>
+                  </button>
+                )}
               </div>
             </div>
             <div className="">

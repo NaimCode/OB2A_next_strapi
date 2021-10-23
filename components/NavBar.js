@@ -25,13 +25,11 @@ const NavBar = ({ user }) => {
   const [userStrapi, setuserStrapi] = useState(null);
   useEffect(() => {
     window.addEventListener("scroll", scrollingNav);
-    axios
-      .get(`${API_URL}/clients?email=${user.email}`)
-      .then((res) => {
-        console.log(res.data[0]);
-        setuserStrapi(res.data[0]);
-      })
-      .catch((error) => console.log(error));
+    user &&
+      axios
+        .get(`${API_URL}/clients?email=${user.email}`)
+        .then((res) => setuserStrapi(res.data[0]))
+        .catch((error) => console.log(error));
   }, []);
   function scrollingNav() {
     if (window.scrollY > 1) {
@@ -196,6 +194,7 @@ const NavBar = ({ user }) => {
               </button>
 
               <button
+                onClick={() => Router.push("/panier")}
                 className="relative text-primary-100 p-1 rounded 
              overflow-visible mx-1
            focus:outline-none  hover:text-blue-500 hover:scale-110 transition

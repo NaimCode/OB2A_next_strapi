@@ -10,7 +10,7 @@ export const Loading = () => {
 export const MiniLoading = () => {
   return (
     <div className="flex items-center justify-center w-full px-4 py-7">
-      <AiOutlineLoading className="text-3xl animate-spin text-purple-800 text-center" />
+      <AiOutlineLoading className="text-2xl animate-spin text-purple-800 text-center" />
     </div>
   );
 };
