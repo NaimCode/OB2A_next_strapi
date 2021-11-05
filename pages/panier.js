@@ -6,8 +6,10 @@ import { auth } from "../Config/firebase";
 import axios from "axios";
 import router from "next/router";
 import { MiniLoading } from "../components/Loading";
-import { BsCartPlusFill, BsCartXFill } from "react-icons/bs";
-import { MdPayments } from "react-icons/md";
+import StripeCheckout from "react-stripe-checkout";
+
+const stripeKey = process.env.STRIPE_PUBLIC_KEY;
+
 const Panier = () => {
   const [isLoading, setisLoading] = useState(false);
   const [user, setuser] = useState(null);
@@ -30,6 +32,17 @@ const Panier = () => {
     });
   }, []);
   ///
+  const onToken = (token) => {
+    axios
+      .post("http://localhost:4000/payment", {
+        card: token.card,
+        client: userStrapi,
+        prix: totalPrice,
+      })
+      .then((response) => console.log(response.data))
+      .catch((error) => console.log(error));
+  };
+
   const removeFromPanier = () => {
     setisLoading(true);
     axios
@@ -76,9 +89,30 @@ const Panier = () => {
       <div className="w-1/3 shadow-xl mx-4 bg-secondary flex flex-col justify-between">
         <h3 className="text-xl">Validation</h3>
         <span className="text-lg font-bold">{totalPrice.toString() + "€"}</span>
-        <button className="bg-yellow-400 w-full py-2 rounded-lg">
-          passer au paiement
-        </button>
+        {!userStrapi ? (
+          <MiniLoading />
+        ) : (
+          <StripeCheckout
+            email={userStrapi.email}
+            name="Paiement" // the pop-in header title
+            description="Veuillez completer les champs" // the pop-in header subtitle
+            image="/assets/logo_mini_blue.png" // the pop-in header image (default none)
+            ComponentClass="div"
+            panelLabel="Payer" // prepended to the amount in the bottom pay button
+            amount={totalPrice * 100} // cents
+            currency="EUR"
+            stripeKey="pk_test_51JoXgfFxlWbadRCP4yqyb92pis2jRp73g19HExuxWBNv3vRRqOatJZnrlc5CuxhvgMuhPvIs5JBn5MJacRRseecJ00iOeImYYm"
+            locale="fr"
+            // Note: Enabling either address option will give the user the ability to
+            // fill out both. Addresses are sent as a second parameter in the token callback.
+            shippingAddress
+            token={onToken} // submit callback
+          >
+            <button className="bg-yellow-400 w-full py-2 rounded-lg">
+              passer au paiement
+            </button>
+          </StripeCheckout>
+        )}
       </div>
     </div>
   );

@@ -5,7 +5,6 @@ export const ShowNavFooter = () => {
     case "/auth":
       return false;
       break;
- 
 
     default:
       return true;
