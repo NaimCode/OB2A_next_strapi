@@ -6,14 +6,15 @@ import { stripePromise } from "../utils/stripe";
 // Specicy Stripe Publishable API key here
 
 // Initialize Stripe Elements
-const Pay = () => {
+const Pay = ({ client, prix }) => {
   return (
-    <div className="w-[500px] bg-white p-12 rounded-xl shadow-2xl">
-      <div className="w-full ">
-        <Elements stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
-      </div>
+    <div
+      onClick={() => {}}
+      className=" bg-white py-5 px-5 rounded-xl shadow-2xl"
+    >
+      <Elements stripe={stripePromise}>
+        <CheckoutForm client={client} prix={prix} />
+      </Elements>
     </div>
   );
 };
