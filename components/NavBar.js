@@ -1,7 +1,6 @@
 import { Logo } from "../components/Mini";
 import Link from "next/link";
 import SearchIcon from "@heroicons/react/outline/SearchIcon";
-import HeartIcon from "@heroicons/react/outline/HeartIcon";
 import BagIcon from "@heroicons/react/outline/ShoppingBagIcon";
 import SettingIcon from "@heroicons/react/outline/CogIcon";
 import UserIcon from "@heroicons/react/outline/UserIcon";
@@ -11,7 +10,7 @@ import Down from "@heroicons/react/outline/ChevronDownIcon";
 import Close from "@heroicons/react/outline/XIcon";
 import "bulma/css/bulma.css";
 
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
 import axios from "axios";
 import { API_URL } from "../utils/GetImageUrl";

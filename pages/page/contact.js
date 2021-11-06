@@ -1,4 +1,3 @@
-import { API_URL } from "../../utils/GetImageUrl";
 import Head from "next/head";
 const contact = ({ email, adresse }) => {
   return (

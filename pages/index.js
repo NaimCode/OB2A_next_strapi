@@ -4,10 +4,8 @@ import { API_URL, getImageUrl } from "../utils/GetImageUrl";
 import Link from "next/link";
 
 import MiniCardProduct from "../components/MiniCardProduct";
-import { useState, useEffect } from "react";
 
 export default function Home(props) {
-
   return (
     <div>
       <MyHead />
@@ -15,7 +13,7 @@ export default function Home(props) {
       <CategorieSection />
       <ProductsListNouveau produits={props.produits} />
 
-      <ProductsListPromotion produits={props.produits} /> 
+      <ProductsListPromotion produits={props.produits} />
       <CollectionsSection collections={props.collections} />
     </div>
   );
@@ -31,52 +29,50 @@ const CategorieSection = () => {
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-16 mx-auto">
           <div className="flex flex-wrap -m-4 ">
-          <Link href="/categorie/femme">
-            <div className="group w-screen md:w-1/3">
-            
-              <div className=" h-[400px]  m-4 cursor-pointer  bg-secondary overflow-hidden md:h-[500px]">
-                <img
-                  alt="gallery"
-                  className="w-full object-cover h-full object-center block  
+            <Link href="/categorie/femme">
+              <div className="group w-screen md:w-1/3">
+                <div className=" h-[400px]  m-4 cursor-pointer  bg-secondary overflow-hidden md:h-[500px]">
+                  <img
+                    alt="gallery"
+                    className="w-full object-cover h-full object-center block  
               inset-0 group-hover:scale-110 transition duration-300 transform"
-                  src="/images/womenFashion.png"
-                />
+                    src="/images/womenFashion.png"
+                  />
+                </div>
+                <h3 className="text-xl text-primary-100 group-hover:text-primary-300 font-logo text-center md:text-3xl">
+                  Femme
+                </h3>
               </div>
-              <h3 className="text-xl text-primary-100 group-hover:text-primary-300 font-logo text-center md:text-3xl">
-                Femme
-              </h3>
-          
-            </div>
             </Link>
             <Link href="/categorie/homme">
-            <div className="group w-screen md:w-1/3">
-              <div className=" h-[350px]  m-4 cursor-pointer  bg-secondary overflow-hidden md:h-[500px]">
-                <img
-                  alt="gallery"
-                  className="w-full object-cover h-full object-center block  
+              <div className="group w-screen md:w-1/3">
+                <div className=" h-[350px]  m-4 cursor-pointer  bg-secondary overflow-hidden md:h-[500px]">
+                  <img
+                    alt="gallery"
+                    className="w-full object-cover h-full object-center block  
               inset-0 group-hover:scale-110 transition duration-300 transform"
-                  src="/images/menfashion.png"
-                />
+                    src="/images/menfashion.png"
+                  />
+                </div>
+                <h3 className="text-xl text-primary-100 group-hover:text-primary-300 font-logo text-center md:text-3xl">
+                  Homme
+                </h3>
               </div>
-              <h3 className="text-xl text-primary-100 group-hover:text-primary-300 font-logo text-center md:text-3xl">
-                Homme
-              </h3>
-            </div>
             </Link>
             <Link href="/categorie/enfant">
-            <div className="group w-screen md:w-1/3">
-              <div className=" h-[350px]  m-4 cursor-pointer  bg-secondary overflow-hidden md:h-[500px]">
-                <img
-                  alt="gallery"
-                  className="w-full object-cover h-full object-center block  
+              <div className="group w-screen md:w-1/3">
+                <div className=" h-[350px]  m-4 cursor-pointer  bg-secondary overflow-hidden md:h-[500px]">
+                  <img
+                    alt="gallery"
+                    className="w-full object-cover h-full object-center block  
               inset-0 group-hover:scale-110 transition duration-300 transform"
-                  src="/images/kidFashion.png"
-                />
+                    src="/images/kidFashion.png"
+                  />
+                </div>
+                <h3 className="text-xl text-primary-100 group-hover:text-primary-300 font-logo text-center md:text-3xl">
+                  Enfant
+                </h3>
               </div>
-              <h3 className="text-xl text-primary-100 group-hover:text-primary-300 font-logo text-center md:text-3xl">
-                Enfant
-              </h3>
-            </div>
             </Link>
           </div>
         </div>
@@ -260,7 +256,6 @@ const Hero = () => {
 };
 
 export async function getStaticProps() {
-  
   const collection_res = await fetch(`${API_URL}/collections/`);
   const produit_res = await fetch(`${API_URL}/produits/`);
   const collections = await collection_res.json();
