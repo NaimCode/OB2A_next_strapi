@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 //import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import {
-  Elements,
-  useStripe,
-  useElements,
-  CardNumberElement,
-  CardExpiryElement,
-  CardCvcElement,
-} from "@stripe/react-stripe-js";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 const CheckoutForm = () => {
   // 1️⃣ Setup state to track client secret, errors and checkout status
   const [succeeded, setSucceeded] = useState(false);
@@ -46,7 +39,7 @@ const CheckoutForm = () => {
     // 5️⃣ Confirm Card Payment.
     const payload = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
-        card: elements.getElement(CardNumberElement),
+        card: elements.getElement(CardElement),
       },
     });
     if (payload.error) {
@@ -61,16 +54,22 @@ const CheckoutForm = () => {
   // 6️⃣ Construct UI.
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <div className="w-36 overflow-hidden bg-red-200">
-        <CardNumberElement
-          className="border-2 border-gray-500 py-4 px-2 max-w-md text-6xl"
-          options={{}}
-          onChange={handleChange}
-        />
-        <CardCvcElement options={{}} onChange={handleChange} />
-        <CardExpiryElement options={{}} onChange={handleChange} />
-        {/* ...other ui elements */}
-      </div>
+      <CardElement id="card-element" options={{}} onChange={handleChange} />
+      <button disabled={processing || disabled || succeeded} id="submit">
+        <span id="button-text">
+          {processing ? <div className="spinner" id="spinner"></div> : "Pay"}
+        </span>
+      </button>
+      {/* Show any error that happens when processing the payment */}
+      {error && (
+        <div className="card-error" role="alert">
+          {error}
+        </div>
+      )}
+      {/* Show a success message upon completion */}
+      <p className={succeeded ? "result-message" : "result-message hidden"}>
+        Payment succeeded!
+      </p>
     </form>
   );
 };

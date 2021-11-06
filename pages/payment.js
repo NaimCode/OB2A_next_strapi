@@ -8,10 +8,12 @@ import { stripePromise } from "../utils/stripe";
 // Initialize Stripe Elements
 export default function App() {
   return (
-    <div className="App">
-      <Elements stripe={stripePromise}>
-        <CheckoutForm />
-      </Elements>
+    <div className=" items-center justify-center">
+      <div className="max-w-md bg-blue-100">
+        <Elements stripe={stripePromise}>
+          <CheckoutForm />
+        </Elements>
+      </div>
     </div>
   );
 }
