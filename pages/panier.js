@@ -7,6 +7,7 @@ import axios from "axios";
 import router from "next/router";
 import { MiniLoading } from "../components/Loading";
 import StripeCheckout from "react-stripe-checkout";
+import Pay from "../components/payment";
 
 const stripeKey = process.env.STRIPE_PUBLIC_KEY;
 
@@ -67,6 +68,9 @@ const Panier = () => {
   };
   return (
     <div className="relative">
+      <div className="absolute h-screen w-screen flex items-center justify-center bg-black bg-opacity-50 z-50 top-0 left-0">
+        <Pay />
+      </div>
       <div className=" flex flex-col md:flex-row py-28 h-screen w-screen px-12 relative">
         <div className="flex-grow h-96  w-full mx-4">
           <h1 className="text-4xl font-semibold">Mon panier</h1>
