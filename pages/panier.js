@@ -24,7 +24,7 @@ const Panier = () => {
       if (user) {
         const res = await axios.get(`${API_URL}/clients?email=${user.email}`);
         setuserStrapi(res.data[0]);
-        console.log(res.data[0]);
+
         let prix = 0.0;
         for (let i = 0; i < res.data[0].panier.length; i++) {
           prix += res.data[0].panier[i].prix;
@@ -34,16 +34,6 @@ const Panier = () => {
     });
   }, []);
   ///
-  const onToken = (token) => {
-    axios
-      .post("http://localhost:4000/payment", {
-        card: token.card,
-        client: userStrapi,
-        prix: totalPrice,
-      })
-      .then((response) => console.log(response.data))
-      .catch((error) => console.log(error));
-  };
 
   const removeFromPanier = () => {
     setisLoading(true);

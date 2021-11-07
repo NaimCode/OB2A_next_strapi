@@ -66,7 +66,7 @@ const CheckoutForm = ({ client, prix }) => {
           prix,
         }),
       })
-      .then((response) => console.log("Succes"))
+      .then((response) => console.log("Paiment accepté"))
       .catch((error) => setError(error));
   };
   const handleChange = async (event) => {
@@ -87,7 +87,6 @@ const CheckoutForm = ({ client, prix }) => {
       setError(`Payment failed ${payload.error.message}`);
       setProcessing(false);
     } else {
-      console.log(payload);
       makeOrder(payload);
       setError(null);
       setProcessing(false);
@@ -153,7 +152,7 @@ const CheckoutForm = ({ client, prix }) => {
                   className="border-2 border-gray-300 px-5 py-2 rounded-md w-full"
                 />
                 <input
-                  type="tel"
+                  type="number"
                   name="tel"
                   placeholder="Tel"
                   required
