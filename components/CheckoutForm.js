@@ -66,7 +66,7 @@ const CheckoutForm = ({ client, prix }) => {
           prix,
         }),
       })
-      .then((response) => console.log("Paiment accepté"))
+      .then((response) => router.replace("/payment-succes"))
       .catch((error) => setError(error));
   };
   const handleChange = async (event) => {
